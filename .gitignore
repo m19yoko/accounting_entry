@@ -131,6 +131,7 @@ dmypy.json
 db.sqlite3
 media/
 accounts/migrations/
+slip/migrations/
 
 # シークレットキーがあるので除外する
-accounting_entry/settings.py
+accounting_entry/local_settings.py

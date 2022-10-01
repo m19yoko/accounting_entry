@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load humanize %} {# base.htmlに書くとエラーになる？ #}
+
+{% block title %}伝票一覧{% endblock %}
+{% block h1 %}伝票一覧{% endblock %}
+
+{% block content %}
+<div>
+    <form class="form-inline">
+        <div class="form-group mr-3">
+            <select class="form-select-sm" name="example">
+                <option value="1">銀行通帳</option>
+                <option value="2">固定費</option>
+                <option value="3">CSVアップロード</option>
+                <option value="4">その他</option>
+            </select>
+            <button type="submit" class="btn btn-primary">絞り込み</button>
+        </div>
+    </form>
+</div>
+
+<div class="row">
+    <div class="col-9">
+        <div class="col-5 ml-3">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>日付</th>
+                        <th>借方科目</th>
+                        <th>貸方科目</th>
+                        <th>金額</th>
+                        <th>摘要</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in object_list %}
+                    <tr>
+                        <td>{{ item.slip_date|date:"m/d" }}</td>
+                        <td>{{ item.debit_accounts }}</td>
+                        <td>{{ item.credit_accounts }}</td>
+                        <td>{{ item.amount|intcomma }}</td>
+                        <td>{{ item.overview }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <!--
+            <div class="mt-3">
+                <a href="{# url 'detail-book' item.pk #}">詳細へ</a>
+            </div>
+            -->
+        </div>
+    </div>
+    <!--
+    <div class="col-3">
+        <h2>評価順TOP2</h2>
+        {% comment "下記の部分は一時的にコメントアウト" %}
+        {% for ranking_book in page_obj %}
+        <div class="p-4 m-4 bg-light border border-success rounded">
+            <h3 class="text-success h5">{{ ranking_book.title }}</h3>
+            {% if ranking_book.thumbnail %}
+            <img src="{{ ranking_book.thumbnail.url }}" class="img-thumbnail" />
+            {% endif %}
+            <h6>評価：{{ ranking_book.avg_rating|floatformat:2 }} 点</h6>
+            <a href="{% url 'detail-book' ranking_book.id %}">詳細を見る</a>
+        </div>
+        {% endfor %}
+        {# include 'components/pagination.html' #}
+        {% endcomment %}
+    </div>
+    -->
+</div>
+{% endblock content %}
